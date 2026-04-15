@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pico W Remote Control</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        button { padding: 20px 40px; font-size: 20px; cursor: pointer; margin: 10px; border-radius: 10px; border: none; }
+        .on { background-color: #4CAF50; color: white; }
+        .off { background-color: #f44336; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Pico W LED Control</h1>
+    <div id="statusText">데이터 확인 중...</div>
+    <br>
+    <button class="on" onclick="setLED('ON')">LED ON</button>
+    <button class="off" onclick="setLED('OFF')">LED OFF</button>
+
+    <script>
+        // 본인의 Firebase URL로 교체 (끝에 /ledStatus.json 을 붙여야 합니다)
+        const dbUrl = "https://YOUR_FIREBASE_URL/ledStatus.json";
+
+        function setLED(state) {
+            fetch(dbUrl, {
+                method: 'PUT',
+                body: JSON.stringify(state)
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('statusText').innerText = "상태: " + data;
+            });
+        }
+    </script>
+</body>
+</html>
